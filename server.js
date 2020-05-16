@@ -34,7 +34,7 @@ app.use(
   })
 );
 
-const url = "mongodb+srv://tyler:bakersfield@cluster0-povsf.mongodb.net/test?retryWrites=true&w=majority";
+const url = "Connection string for mongoDB would go here";
 let collection;
 
 
