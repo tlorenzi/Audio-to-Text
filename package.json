@@ -1,0 +1,25 @@
+{
+  "name": "transcribe",
+  "version": "1.0.0",
+  "description": "a web app to transcribe audio files to text using the IBM watson API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Tyler Lorenzi",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "file-type": "^14.4.0",
+    "ibm-watson": "^5.5.0",
+    "mongodb": "^3.5.7",
+    "object-hash": "^2.0.3"
+  }
+}

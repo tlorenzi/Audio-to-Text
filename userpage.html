@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Transcribe.io</title>
+
+  <link rel="stylesheet" href="./plugins/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="./plugins/fontawesome/css/all.css" />
+  <link rel="stylesheet" href="./plugins/animate-css/animate.css" />
+  <link rel="stylesheet" href="./plugins/icofont/icofont.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body data-spy="scroll" data-target=".fixed-top">
+  <nav id="head" class="navbar navbar-expand-lg fixed-top trans-navigation">
+    <div>
+      <a id="button" href="#" class="btn btn-white btn-circled">
+        Upload A File
+      </a>
+    </div>
+  </nav>
+
+  <div class="banner-area banner-1">
+    <div class="overlay gr-overlay"></div>
+    <div class="d-table">
+      <div class="d-table-cell">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 m-auto text-center col-sm-12 col-md-12">
+              <div class="banner-content content-padding">
+                <div id="form-container">
+                  <form id="form" action="/work" method="POST">
+                    <h4>Upload An Audio File To Transcribe</h4>
+                    <p class="file-return"></p>
+                    <div class="input-file-container">
+                      <input class="input-file" id="my-file" type="file" name="fileName" />
+                      <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label>
+                      <input type="submit" />
+                    </div>
+                  </form>
+                </div>
+                <h3 class="subtitle">Your Transcribed Files</h3>
+                <table id="table">
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  document.querySelector("html").classList.add("js");
+
+  var fileInput = document.querySelector(".input-file"),
+    button = document.querySelector(".input-file-trigger"),
+    the_return = document.querySelector(".file-return");
+
+  button.addEventListener("keydown", function (event) {
+    if (event.keyCode == 13 || event.keyCode == 32) {
+      fileInput.focus();
+    }
+  });
+  button.addEventListener("click", function (event) {
+    fileInput.focus();
+    return false;
+  });
+  fileInput.addEventListener("change", function (event) {
+    the_return.innerHTML = this.value;
+  });
+
+  document.getElementById("button").addEventListener("click", () => {
+    onForm = true;
+    document.getElementById("form-container").style.display = "flex";
+  });
+
+  document.addEventListener("click", function (event) {
+    let form = document.getElementById("form");
+    let isClickInside = form.contains(event.target);
+
+    if (
+      !isClickInside &&
+      !document.getElementById("button").contains(event.target)
+    ) {
+      onForm = false;
+      document.getElementById("form-container").style.display = "none";
+    }
+  });
+
+  let files;
+  window.onload = () => {
+    axios.get("/files").then((response) => {
+
+      let email = response.data.email;
+      console.log("files: ", response.data.fileList);
+      files = response.data.fileList;
+
+      if (files === "error") window.location = "/loginPage"; // if not signed in, redirect to login page
+      else if (files.length === 0) document.getElementById("table").innerHTML = "No files";
+
+      for (let i = 0; i < files.length; i++) {
+
+        let link = document.createElement("a");
+        link.setAttribute("href", "./users/" + email + "/" + files[i]);
+        link.setAttribute("class", "link");
+        link.setAttribute("download", files[i]);
+
+        if (i % 2 !== 0) link.style.backgroundColor = "lightgrey";
+        if (i === files.length - 1) link.style.paddingBottom = "0";
+
+        link.style.color = "black";
+        link.style.display = "block";
+        link.innerHTML = files[i];
+
+        document.getElementById("table").appendChild(link);
+      }
+    });
+  };
+</script>
+
+</html>

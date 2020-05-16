@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>snappr</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple login form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
+</head>
+<style>
+    form {
+        border: 5px solid #f1f1f1;
+    }
+
+    body,
+    html {
+        display: flex;
+        justify-content: center;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 16px 8px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #8ebf42;
+        color: white;
+        padding: 14px 0;
+        margin: 10px 0;
+        border: none;
+        cursor: grabbing;
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 18;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    .formcontainer {
+        text-align: left;
+        margin: 24px 50px 12px;
+    }
+
+    .container {
+        padding: 16px 0;
+        text-align: left;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 0;
+        padding-right: 15px;
+    }
+
+    #bottom-form {
+        margin-top: 30px;
+    }
+
+    #sub {
+        width: 75px;
+        height: 40px;
+        color: white;
+        background-color: #8ebf42;
+        font-size: 1.2rem;
+        border-radius: 5%;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    #sub:hover {
+        background-color: rgb(156, 7, 156);
+    }
+
+    /* Change styles for span on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+            display: block;
+            float: none;
+        }
+    }
+</style>
+
+<body>
+    <form id="form">
+        <!-- need to change to /signUp -->
+        <h1 id="change">Login Form</h1>
+        <div class="formcontainer">
+            <hr />
+
+            <div class="container">
+                <label id="email" for="name"> <strong>Email</strong></label>
+                <input type="text" placeholder="Enter Username" name="name" id="name" required />
+
+                <label for="password"><strong>Password</strong></label>
+                <input type="text" placeholder="Enter Password" name="password" id="password" required />
+            </div>
+
+            <input id="sub" type="submit" value="submit" />
+            <!-- use js to change when link is clicked-->
+
+            <div class="container" style="background-color: #eee;">
+                <label style="padding-left: 15px;">
+                    <a id="signUp" href="#"> Register </a>
+                </label>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    let state = true;
+
+    document.getElementById("signUp").addEventListener("click", () => {
+        if (state) {
+            document.getElementById("signUp").innerHTML = "Sign In";
+            document.getElementById("change").innerHTML = "Sign Up Form";
+            document.getElementById("email").innerHTML = "Email";
+            document.getElementById("email").style["color"] = "black";
+            state = false;
+        } else {
+            document.getElementById("signUp").innerHTML = "Sign Up";
+            document.getElementById("change").innerHTML = "Log In Form";
+            state = true;
+        }
+    });
+
+    document.getElementById("sub").addEventListener("click", (e) => {
+        e.preventDefault();
+        let route = "/signin";
+        if (!state) route = "/signup";
+
+        let n = document.getElementById("name").value;
+        let pw = document.getElementById("password").value;
+
+        axios
+            .post(route, { name: n, password: pw })
+            .then((response) => {
+                if (response.data === "no" && state === false) {
+                    document.getElementById("email").innerHTML =
+                        "Email: email is aleady in use";
+
+                    document.getElementById("email").style["color"] = "red";
+                } else if (response.data === "no") {
+                    document.getElementById("email").innerHTML =
+                        "Email: incorrect email/password combo";
+                    document.getElementById("email").style["color"] = "red";
+                } else {
+                    // send the user their files
+                    window.location.href = "/userpage";
+                }
+            })
+            .catch(console.error());
+    });
+</script>
+
+</html>
