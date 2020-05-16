@@ -6,5 +6,6 @@ This web app is built with the IBM Watson API, Node.js, and Express.js.
 
 To run locally:
 1) in the server.js file change the: connection string, database name, and the collection name.
-2) run "npm install"
-3) run "node server.js"
+2) put in your IBM Watson API key into the server.js fie
+3) run "npm install"
+4) run "node server.js"
