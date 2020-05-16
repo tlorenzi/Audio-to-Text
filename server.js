@@ -50,7 +50,7 @@ MongoClient.connect(url, function (err, client) {
 
 const speechToText = new SpeechToTextV1({
   authenticator: new IamAuthenticator({
-    apikey: "gS17Y5pvrVhMrEYKbsP3NzlITRE4pfuktGDB6j87qsUB",
+    apikey: "",
   }),
   url:
     "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/a9bf62fc-e6a9-45ec-be39-4e4d3398301e",
